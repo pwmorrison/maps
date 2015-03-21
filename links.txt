@@ -1,0 +1,17 @@
+Github repo:
+https://github.com/pwmorrison/maps
+
+GIT cheat sheet:
+https://training.github.com/kit/downloads/github-git-cheat-sheet.pdf
+
+Martin Matysiak's blog about Street view coordinates:
+https://martinmatysiak.de/blog/view/panomarker
+
+Maps API markers:
+https://developers.google.com/maps/documentation/javascript/markers
+
+My panomarker test:
+file:///C:/Users/Renee/Documents/paul/street_view/street_view_service_overlay_werrington_panomarker.html
+
+Panomarker fancy:
+file:///C:/Users/Renee/Documents/paul/street_view/google-maps-api-addons-master/google-maps-api-addons-master/panomarker/examples/fancy.html

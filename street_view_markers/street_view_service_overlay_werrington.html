@@ -1,0 +1,79 @@
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Street View service</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+    <script>
+    
+
+var fenway = new google.maps.LatLng(42.345573, -71.098326);
+var cafe = new google.maps.LatLng(42.347183, -71.095298);
+var werringtonStreet = new google.maps.LatLng(-33.754497, 150.752475);
+var werringtonDownStreet = new google.maps.LatLng(-33.754114, 150.752722);
+var werringtonHouse = new google.maps.LatLng(-33.754342, 150.752529);
+
+var erskineStreet = new google.maps.LatLng(-33.806429, 150.807275);
+var erskineHouse = new google.maps.LatLng(-33.806411, 150.806996);
+
+
+function determineHeading(from, to) {
+       var heading = google.maps.geometry.spherical.computeHeading(from, to);
+       return heading;
+}
+    
+function initialize() {
+  
+  var mapOptions = {
+    center: erskineStreet,
+    zoom: 14
+  };
+  var map = new google.maps.Map(
+      document.getElementById('map-canvas'), mapOptions);
+  
+    var houseMarker = new google.maps.Marker({
+      position: erskineHouse,//werringtonHouse,
+      map: map,
+      icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_icon&chld=cafe|FFFF00',
+      title: 'House'
+  });
+  
+  //var headingHouse = google.maps.geometry.spherical.computeHeading(erskineStreet, erskineHouse); 
+  //var heading = google.maps.geometry.spherical.computeHeading(panoCenter, lookTo);
+    
+  var panoramaOptions = {
+    position: erskineStreet,//werringtonStreet,
+    pov: {
+      heading: 34,//headingHouse,
+      pitch: 10
+    }
+  };
+  var panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
+  map.setStreetView(panorama);
+  
+  houseMarker.setMap(panorama);
+  
+  var pov = panorama.getPov();
+  pov.heading = 270;//headingHouse;
+  panorama.setPov(pov);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas" style="width: 45%; height: 100%;float:left"></div>
+    <div id="pano" style="width: 45%; height: 100%;float:left"></div>
+  </body>
+</html>
+
