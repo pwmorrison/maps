@@ -13,6 +13,7 @@
       }
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=geometry"></script>
     <script src="../../google-maps-api-addons/panomarker/src/panomarker.js"></script>
     <script>
     
@@ -27,10 +28,24 @@ var erskineStreet = new google.maps.LatLng(-33.806429, 150.807275);
 var erskineHouse = new google.maps.LatLng(-33.806411, 150.806996);
 
 
-function determineHeading(from, to) {
-       var heading = google.maps.geometry.spherical.computeHeading(from, to);
-       return heading;
+// Translates a latitude/longitude coordinate to a heading/pitch in a street view panorama.
+// Thius heading/pitch can then be used to create a PanoMarker that corresponds to the latitude/longitude.
+function latLngToSVHeadingPitch(markerLatLgn, svLatLng) {
+    // Get the heading.
+    
+    // Get the elevation of the marker.
+    
+    // Get the elevation at the street view camera.
+    
+    // Add the estimated height of the street view camera above the ground.
+    
+    // Get the horizontal distance between the marker and the street view camera.
+    
+    
+    
+    // Get the pitch, using the elevations and distance between the marker and camera.
 }
+
     
 function initialize() {
   
@@ -48,13 +63,12 @@ function initialize() {
       title: 'House'
   });
   
-  //var headingHouse = google.maps.geometry.spherical.computeHeading(erskineStreet, erskineHouse); 
-  //var heading = google.maps.geometry.spherical.computeHeading(panoCenter, lookTo);
+  var headingHouse = google.maps.geometry.spherical.computeHeading(erskineStreet, erskineHouse);
     
   var panoramaOptions = {
     position: erskineStreet,//werringtonStreet,
     pov: {
-      heading: 34,//headingHouse,
+      heading: headingHouse, // 34
       pitch: 10
     }
   };
@@ -64,13 +78,13 @@ function initialize() {
   houseMarker.setMap(panorama);
   
   var pov = panorama.getPov();
-  pov.heading = 270;//headingHouse;
+  pov.heading = headingHouse; // 270
   panorama.setPov(pov);
   
   window.marker = new PanoMarker(
     {
       pano: panorama,
-      position: {heading: 270, pitch: -27.22},
+      position: {heading: headingHouse, pitch: -27.22}, // Heading = 270
       anchor: new google.maps.Point(1,1),
       size: new google.maps.Size(30,30),
       //icon: 'info.png', // Use default pushpin icon.
