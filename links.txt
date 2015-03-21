@@ -15,3 +15,6 @@ file:///C:/Users/Renee/Documents/paul/street_view/street_view_service_overlay_we
 
 Panomarker fancy:
 file:///C:/Users/Renee/Documents/paul/street_view/google-maps-api-addons-master/google-maps-api-addons-master/panomarker/examples/fancy.html
+
+Panomarker github:
+https://github.com/marmat/google-maps-api-addons
