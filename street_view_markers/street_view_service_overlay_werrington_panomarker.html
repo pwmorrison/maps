@@ -27,13 +27,57 @@ var werringtonHouse = new google.maps.LatLng(-33.754342, 150.752529);
 var erskineStreet = new google.maps.LatLng(-33.806429, 150.807275);
 var erskineHouse = new google.maps.LatLng(-33.806411, 150.806996);
 
+var elevator;
+
+function getElevation(latLng) {
+
+  var locations = [];
+
+  // Retrieve the clicked location and push it on the array
+  locations.push(latLng);
+
+  // Create a LocationElevationRequest object using the array's one value
+  var positionalRequest = {
+    'locations': locations
+  }
+
+  var elevation = -1;
+  
+  // Initiate the location request
+  elevator.getElevationForLocations(positionalRequest, function(results, status) {
+    if (status == google.maps.ElevationStatus.OK) {
+
+      // Retrieve the first result
+      if (results[0]) {
+
+        // Open an info window indicating the elevation at the clicked position
+        infowindow.setContent('The elevation at this point <br>is ' + results[0].elevation + ' meters.');
+        infowindow.setPosition(clickedLocation);
+        infowindow.open(map);
+        
+        elevation = results[0].elevation;
+        
+      } else {
+        alert('No results found');
+      }
+    } else {
+      alert('Elevation service failed due to: ' + status);
+    }
+  });
+  
+  return elevation;
+}
+
 
 // Translates a latitude/longitude coordinate to a heading/pitch in a street view panorama.
 // Thius heading/pitch can then be used to create a PanoMarker that corresponds to the latitude/longitude.
-function latLngToSVHeadingPitch(markerLatLgn, svLatLng) {
+function latLngToSVHeadingPitch(markerLatLgn, cameraLatLng) {
     // Get the heading.
+    var heading = google.maps.geometry.spherical.computeHeading(cameraLatLng, markerLatLgn);
     
     // Get the elevation of the marker.
+    var markerElevation = getElevation(markerLatLgn);
+    
     
     // Get the elevation at the street view camera.
     
@@ -49,6 +93,9 @@ function latLngToSVHeadingPitch(markerLatLgn, svLatLng) {
     
 function initialize() {
   
+    // Create an ElevationService
+  elevator = new google.maps.ElevationService();
+    
   var mapOptions = {
     center: erskineStreet,
     zoom: 14
@@ -94,6 +141,8 @@ function initialize() {
   google.maps.event.addListener(marker, 'click', function() {
     alert('That\'s my bike!');
   });
+  
+  latLngToSVHeadingPitch(erskineHouse, erskineStreet);
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
